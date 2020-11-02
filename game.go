@@ -27,13 +27,11 @@ const (
 )
 
 // TODO:
-// - Lägg till Git
 // - Preloada imgs och textures i början och Free() och Destroy() när programmet stängs av
 // - Lägg till så att ljuset "fadear" runt karaktären
 // - Lägg till Enemies
 // - Lägg till healthbar och inventory
 // - Fixa varningar när man kör programmet
-// - Fixa crashen när man trycker på E och inte är vid en treasure
 
 
 func drawMap(renderer *sdl.Renderer, p *Player) {
@@ -211,48 +209,50 @@ func main() {
                     case sdl.K_RIGHT:
                         if player.curr_node.Right != nil && player.curr_node.Right.Type == helpers.Normal{
                             player.curr_node = player.curr_node.Right
-                            player.direction = helpers.Right
-                            drawMap(renderer, &player)
                         }
+                        player.direction = helpers.Right
+                        drawMap(renderer, &player)
                         break
                     case sdl.K_LEFT:
                         if player.curr_node.Left != nil && player.curr_node.Left.Type == helpers.Normal{
                             player.curr_node = player.curr_node.Left
-                            player.direction = helpers.Left
-                            drawMap(renderer, &player)
                         }
+                        player.direction = helpers.Left
+                        drawMap(renderer, &player)
                         break
                     case sdl.K_UP:
                         if player.curr_node.Up != nil && player.curr_node.Up.Type == helpers.Normal {
                             player.curr_node = player.curr_node.Up
-                            player.direction = helpers.Up
-                            drawMap(renderer, &player)
                         }
+                        player.direction = helpers.Up
+                        drawMap(renderer, &player)
                         break
                     case sdl.K_DOWN:
                         if player.curr_node.Down != nil && player.curr_node.Down.Type == helpers.Normal{
                             player.curr_node = player.curr_node.Down
-                            player.direction = helpers.Down
-                            drawMap(renderer, &player)
+
                         }
+                        player.direction = helpers.Down
+                        drawMap(renderer, &player)
                         break
                     case sdl.K_e:
-                        if player.curr_node.Up.Type == helpers.Treasure {
-                            player.curr_node.Up.Image = helpers.LoadImage(helpers.Treasure_open_image)
-                            randomIndex := rand.Intn(len(helpers.Treasure_objects))
-                            pick := helpers.Treasure_objects[randomIndex]
-                            if pick != helpers.Empty {
-                                for i, spot := range player.inventory {
-                                    if spot == helpers.Empty {
-                                        player.inventory[i] = pick
-                                        helpers.Nodes[i].Image = helpers.LoadImage(helpers.Inventory_spot_starlight_image)
-                                        break
+                        if player.curr_node.Up != nil {
+                            if player.curr_node.Up.Type == helpers.Treasure {
+                                player.curr_node.Up.Image = helpers.LoadImage(helpers.Treasure_open_image)
+                                randomIndex := rand.Intn(len(helpers.Treasure_objects))
+                                pick := helpers.Treasure_objects[randomIndex]
+                                if pick != helpers.Empty {
+                                    for i, spot := range player.inventory {
+                                        if spot == helpers.Empty {
+                                            player.inventory[i] = pick
+                                            helpers.Nodes[i].Image = helpers.LoadImage(helpers.Inventory_spot_starlight_image)
+                                            break
+                                        }
                                     }
                                 }
                             }
-
+                            drawMap(renderer, &player)
                         }
-                        drawMap(renderer, &player)
                         break
                     }
                 }
