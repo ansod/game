@@ -204,28 +204,25 @@ func main() {
 				running = false
 				break
             case *sdl.KeyboardEvent:
-                if t.Type == sdl.KEYUP {
+                if t.Type == sdl.KEYDOWN {
                     switch t.Keysym.Sym {
                     case sdl.K_RIGHT:
                         if player.curr_node.Right != nil && player.curr_node.Right.Type == helpers.Normal{
                             player.curr_node = player.curr_node.Right
                         }
                         player.direction = helpers.Right
-                        drawMap(renderer, &player)
                         break
                     case sdl.K_LEFT:
                         if player.curr_node.Left != nil && player.curr_node.Left.Type == helpers.Normal{
                             player.curr_node = player.curr_node.Left
                         }
                         player.direction = helpers.Left
-                        drawMap(renderer, &player)
                         break
                     case sdl.K_UP:
                         if player.curr_node.Up != nil && player.curr_node.Up.Type == helpers.Normal {
                             player.curr_node = player.curr_node.Up
                         }
                         player.direction = helpers.Up
-                        drawMap(renderer, &player)
                         break
                     case sdl.K_DOWN:
                         if player.curr_node.Down != nil && player.curr_node.Down.Type == helpers.Normal{
@@ -233,7 +230,6 @@ func main() {
 
                         }
                         player.direction = helpers.Down
-                        drawMap(renderer, &player)
                         break
                     case sdl.K_e:
                         if player.curr_node.Up != nil {
@@ -251,11 +247,12 @@ func main() {
                                     }
                                 }
                             }
-                            drawMap(renderer, &player)
+
                         }
                         break
                     }
                 }
+                drawMap(renderer, &player)
                 break
 			}
 		}
